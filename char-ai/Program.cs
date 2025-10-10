@@ -7,5 +7,6 @@ static class Program
     {
         ApplicationConfiguration.Initialize();
         Application.Run(new MainForm());
+        // glone
     }
 }
