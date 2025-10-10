@@ -99,3 +99,21 @@ jobs:
       with:
         name: MSIX Package
         path: ${{ env.Wap_Project_Directory }}\AppPackages
+    - name: Publish single-file executable
+      run: dotnet publish $env:Project_Path `
+            --configuration $env:Configuration `
+            --runtime win-x64 `
+            --self-contained true `
+            /p:PublishSingleFile=true `
+            /p:IncludeNativeLibrariesForSelfExtract=true `
+            /p:DebugType=None `
+            /p:PublishTrimmed=false `
+            -o ./publish/${{ matrix.configuration }}
+      env:
+        Configuration: ${{ matrix.configuration }}
+
+    - name: Upload published build
+      uses: actions/upload-artifact@v4
+      with:
+        name: char-ai-${{ matrix.configuration }}-singlefile
+        path: publish/${{ matrix.configuration }}
