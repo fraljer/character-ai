@@ -8,6 +8,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationIcon>Resources\character_ai_logo-3064455270.ico</ApplicationIcon>
+    <AssemblyName>characterAI</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -64,10 +64,12 @@ public partial class MainForm : Form
 
             view.CoreWebView2.Navigate(cai);
 
+            /*
             view.CoreWebView2.NavigationCompleted += (s, ev) =>
             {
                 view.CoreWebView2.ExecuteScriptAsync("document.body.style.zoom = '1.10'");
             };
+            */
         }
         catch (Exception ex)
         {
