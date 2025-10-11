@@ -58,7 +58,13 @@ public partial class MainForm : Form
             var env = await CoreWebView2Environment.CreateAsync(null, data);
 
             await view.EnsureCoreWebView2Async(env);
-            
+
+            view.CoreWebView2.NewWindowRequested += (s, args) =>
+            {
+                args.Handled = true; // to prevent against character.ai's opening in external windows
+                view.CoreWebView2.Navigate(args.Uri);
+            };
+
 
             await view.EnsureCoreWebView2Async();
 
