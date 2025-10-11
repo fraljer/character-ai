@@ -1,7 +1,8 @@
-using System;
-using System.Windows.Forms;
+using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
+using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace char_ai;
 
@@ -35,19 +36,41 @@ public partial class MainForm : Form
         SetDarkTitleBar(this);
         this.Width = 1280;
         this.Height = 720;
-        view = new WebView2{
+        view = new WebView2
+        {
             Dock = DockStyle.Fill
         };
         Controls.Add(view);
 
         InitializeComponent();
     }
-    private async void InitializeMain(object sender, EventArgs e){
-        try{
+    private async void InitializeMain(object sender, EventArgs e)
+    {
+        try
+        {
+            ///<summary>
+            ///places webview data into a folder, so when updating, the data is not lost.
+            ///</summary>
+            string data = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "fråljer", "character-ai", "data");
+
+            var env = await CoreWebView2Environment.CreateAsync(null, data);
+
+            await view.EnsureCoreWebView2Async(env);
+            
+
             await view.EnsureCoreWebView2Async();
+
             view.CoreWebView2.Navigate(cai);
+
+            view.CoreWebView2.NavigationCompleted += (s, ev) =>
+            {
+                view.CoreWebView2.ExecuteScriptAsync("document.body.style.zoom = '1.10'");
+            };
         }
-        catch (Exception ex){
+        catch (Exception ex)
+        {
             MessageBox.Show($"Failed to show {cai}. Is it down?", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
