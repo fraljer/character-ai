@@ -1,6 +1,8 @@
+
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
@@ -41,8 +43,15 @@ public partial class MainForm : Form
             Dock = DockStyle.Fill
         };
         Controls.Add(view);
-
+        
         InitializeComponent();
+    }
+    public void DebugMode() {
+#if DEBUG
+        //soon
+        MessageBox.Show("not implemented", "debug");
+#endif
+        return;
     }
     private async void InitializeMain(object sender, EventArgs e)
     {
@@ -69,6 +78,7 @@ public partial class MainForm : Form
             await view.EnsureCoreWebView2Async();
 
             view.CoreWebView2.Navigate(cai);
+            DebugMode();
 
             /*
             view.CoreWebView2.NavigationCompleted += (s, ev) =>
