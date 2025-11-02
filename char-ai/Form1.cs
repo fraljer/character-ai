@@ -1,9 +1,11 @@
 
+using DiscordRPC;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.WinForms;
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using System.Windows.Forms;
 
 namespace char_ai;
@@ -18,6 +20,7 @@ public partial class MainForm : Form
     private const int DWMWA_CAPTION_COLOR = 35;
     private const int DWMWA_TEXT_COLOR = 36;
     private WebView2 view;
+    private DiscordRpcClient? client;
     private const string cai = "https://character.ai";
 
     public static void SetDarkTitleBar(Form form)
@@ -49,9 +52,18 @@ public partial class MainForm : Form
     public void DebugMode() {
 #if DEBUG
         //soon
-        MessageBox.Show("not implemented", "debug");
+        //MessageBox.Show("not implemented", "debug");
+        return;
 #endif
         return;
+    }
+    public void SetPresence(string state) {
+        client = new DiscordRpcClient("1430423027325075606");
+        client.SetPresence(new RichPresence()
+        {
+            Details = "Chatting",
+            State = state
+        });
     }
     private async void InitializeMain(object sender, EventArgs e)
     {
@@ -74,11 +86,11 @@ public partial class MainForm : Form
                 view.CoreWebView2.Navigate(args.Uri);
             };
 
-
             await view.EnsureCoreWebView2Async();
 
             view.CoreWebView2.Navigate(cai);
             DebugMode();
+            SetPresence("character ai ceo give me API access");
 
             /*
             view.CoreWebView2.NavigationCompleted += (s, ev) =>
