@@ -5,6 +5,10 @@ on:
     branches:
       - stabil   # change if you want another branch to trigger release
 
+permissions:
+  contents: write
+
+
 jobs:
   build:
     runs-on: windows-latest
